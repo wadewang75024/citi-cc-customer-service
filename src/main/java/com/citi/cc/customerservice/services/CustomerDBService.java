@@ -12,4 +12,6 @@ public interface CustomerDBService {
 	Customer createCustomer(Customer c) throws Exception;
 	
 	Customer updateSSN(Customer c) throws Exception;
+	
+	Customer retrieveBySSN(String ssn) throws Exception;
 }

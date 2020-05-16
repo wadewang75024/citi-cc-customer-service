@@ -31,5 +31,9 @@ public class CustomerDBServiceImpl implements  CustomerDBService {
 	public Customer updateSSN(Customer c) throws Exception {
 		return dbRepo.save(c);
 	}
+	
+	public Customer retrieveBySSN(String ssn) throws Exception {
+		return dbRepo.findByssn(ssn);
+	}
 
 }

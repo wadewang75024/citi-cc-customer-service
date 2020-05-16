@@ -7,5 +7,5 @@ import com.citi.cc.customerservice.persistent.entities.Customer;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long>{
-
+	Customer findByssn(String ssn);
 }
