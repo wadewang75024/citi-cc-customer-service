@@ -86,6 +86,7 @@ public class CustomerController {
     
     @PostMapping("/customer/new")
     public CustomerDTO createCustomer(@RequestBody CustomerDTO dto) {
+    	logger.info("****************** createCustomer starts...");
     	try {
     	  Customer customer = DataMapper.mapToEntity(dto);
     	  Customer newCustomer = customerDBService.createCustomer(customer);
@@ -93,6 +94,7 @@ public class CustomerController {
     	  return result;
     	}
     	catch (Exception e) {
+    		logger.error("****************** An error has ocurred!");
     		throw new BusinessException();
     	}
     }

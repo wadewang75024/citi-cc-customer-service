@@ -43,8 +43,5 @@ public class RepoIntTester {
 		    // then
 		    assertThat(found.getLastName())
 		      .isEqualTo(customer.getLastName());
-		}
-	  
-	 
-
+	  }
 }

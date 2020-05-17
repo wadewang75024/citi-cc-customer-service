@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.*;
 public class ServiceLayerTester {
 	
 	 @TestConfiguration
-	 static class EmployeeServiceImplTestContextConfiguration {
+	 static class CustomerServiceImplTestContextConfiguration {
 	  
 	        @Bean
 	        public CustomerDBService customerService() {
@@ -49,7 +49,7 @@ public class ServiceLayerTester {
 	 }
 	 
 	 @Test
-	 public void whenValidName_thenEmployeeShouldBeFound() throws Exception {
+	 public void retrieveCustomerBySSN() throws Exception {
 	     String ssn = "001-00-111";
 	     Customer found = customerDBService.retrieveBySSN(ssn);
 	   
