@@ -37,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(CustomerController.class)
-public class CustomerControllerPostTester {
+public class CustomerControllerTester {
 	
 	 @Autowired
 	 private MockMvc mvc;
@@ -49,6 +49,47 @@ public class CustomerControllerPostTester {
 	        ObjectMapper mapper = new ObjectMapper();
 	        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 	        return mapper.writeValueAsBytes(object);
+	 }
+	 
+	 @Test
+	 public void testRetrieveAllCustomers()
+	   throws Exception {
+	      
+		 // given
+		 Customer customer1 = new Customer();
+		 customer1.setAddress("100 Test St");
+		 customer1.setFirstName("Test");
+		 customer1.setLastName("Test");
+		 customer1.setPhoneNumber("2140000000");
+		 customer1.setSsn("001-00-111");
+		 
+		 Customer customer2 = new Customer();
+		 customer2.setAddress("100 Test St");
+		 customer2.setFirstName("Test");
+		 customer2.setLastName("Test");
+		 customer2.setPhoneNumber("2140000000");
+		 customer2.setSsn("002-00-222");
+		 
+		 Customer customer3 = new Customer();
+		 customer3.setAddress("100 Test St");
+		 customer3.setFirstName("Test");
+		 customer3.setLastName("Test");
+		 customer3.setPhoneNumber("2140000000");
+		 customer3.setSsn("003-00-333");
+	  
+	     Optional<List<Customer>> allCustomers = Optional.of(Arrays.asList(customer1, customer2, customer3));
+	     
+	     given(service.retrieveAll()).willReturn(allCustomers);
+	  
+	     mvc.perform(get("/customers")
+	     .contentType(MediaType.APPLICATION_JSON))
+	     .andExpect(status().isOk())
+	     .andExpect(jsonPath("$", hasSize(3)))
+	     .andExpect(jsonPath("$[0].ssn", is("xxx-xx-111")))
+	     .andExpect(jsonPath("$[1].ssn", is("xxx-xx-222")))
+         .andExpect(jsonPath("$[2].ssn", is("xxx-xx-333")));
+	     verify(service, VerificationModeFactory.times(1)).retrieveAll();
+	     reset(service);
 	 }
 	 
 	 @Test
@@ -69,10 +110,11 @@ public class CustomerControllerPostTester {
 		 dto.setPhoneNumber("2140000000");
 		 dto.setSsn("001-00-111");
 		 
-	     mvc.perform(post("/customer/new").contentType(MediaType.APPLICATION_JSON).content(toJson(dto)));
+	     mvc.perform(post("/customer/new").contentType(MediaType.APPLICATION_JSON).content(toJson(dto)))
+	     .andExpect(status().isOk())
+	     .andExpect(jsonPath("$.ssn", is("001-00-111")));
 
 	     verify(service, VerificationModeFactory.times(1)).createCustomer(Mockito.any());
 	     reset(service);
 	 }
 }
-
